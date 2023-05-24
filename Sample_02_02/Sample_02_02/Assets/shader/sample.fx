@@ -19,6 +19,7 @@ VSOutput VSMain(VSInput In)
 {
     VSOutput vsOut = (VSOutput)0;
     vsOut.pos = In.pos;
+
     vsOut.color = In.color; // カラーの情報を出力する
     return vsOut;
 }
@@ -27,14 +28,14 @@ VSOutput VSMain(VSInput In)
 float4 PSMain(VSOutput vsOut) : SV_Target0
 {
     // 赤色を出力している
-    return float4(1.0f, 0.0f , 0.0f, 1.0f);
+    //return float4(1.0f, 0.0f , 0.0f, 1.0f);
 
     // step-1 三角形を青色にする
 
     // step-2 三角形を緑色にする
 
     // step-3 三角形を黄色にする
-
+    return float4(1.0f, 1.0f, 0.0f, 1.0f);
     // step-4 頂点シェーダーから受け取ったカラーを出力する
 
 }
