@@ -59,10 +59,24 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     triangleIB.Init(sizeof(indices), 2);
     triangleIB.Copy(indices);
 
+    //step-1 定数バッファーを作成
+    ConstantBuffer cb;
+    cb.Init(sizeof(Matrix));//Init関数の引数は定数バッファーのサイズ
+
+    //step-2 ディスクリプタヒープを作成
+    DescriptorHeap ds;
+    ds.RegistConstantBuffer(0, cb);
+    ds.Commit();//ディスクリプタヒープへの登録を確定
+
     //////////////////////////////////////
     // 初期化を行うコードを書くのはここまで！！！
     //////////////////////////////////////
     auto& renderContext = g_graphicsEngine->GetRenderContext();
+
+    float moveX = 0.0f;
+    float moveY = 0.0f;
+    float speedX = 0.0f;
+    bool boolSpeed = false;
 
     // ここからゲームループ
     while (DispatchWindowMessage())
@@ -76,6 +90,38 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
         // 1. ルートシグネチャを設定
         renderContext.SetRootSignature(rootSignature);
+
+        //step-3 ワールド行列を作成
+        Matrix mWorld;
+        //mWorld.MakeTranslation(0.5f, 0.4f, 0.0f);
+
+
+		moveX = moveX + speedX;
+
+        if (moveX > 2) {
+            boolSpeed = true;
+        }
+        if (moveX < -2) {
+            boolSpeed = false;
+        }
+        if (boolSpeed) {
+            speedX = -0.03f;
+        }
+        else {
+            speedX = 0.125f;
+        }
+
+
+        mWorld.MakeTranslation(moveX, moveY, 0.0f);
+        //mWorld.MakeRotationAxis();
+        
+        //step-4 ワールド行列をグラフィックスメモリにコピー
+        cb.CopyToVRAM(mWorld);
+
+
+        //step-5 ディスクリプタヒープを設定
+        renderContext.SetDescriptorHeap(ds);
+
         // 2. パイプラインステートを設定
         renderContext.SetPipelineState(pipelineState);
         // 3. プリミティブのトポロジーを設定
