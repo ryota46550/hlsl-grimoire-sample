@@ -39,15 +39,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     Light light;
 
     // ライトは右側から当たっている
-    light.directionLight.direction.x = 1.0f;
-    light.directionLight.direction.y = -1.0f;
-    light.directionLight.direction.z = -1.0f;
+    light.directionLight.direction.x = 25.0f;
+    light.directionLight.direction.y = -25.0f;
+    light.directionLight.direction.z = 0.0f;
     light.directionLight.direction.Normalize();
 
     // ライトのカラーは白
     light.directionLight.color.x = 0.5f;
-    light.directionLight.color.y = 0.5f;
-    light.directionLight.color.z = 0.5f;
+    light.directionLight.color.y = 10.5f;
+    light.directionLight.color.z = 50.5f;
 
     // 視点の位置を設定する
     light.eyePos = g_camera3D->GetPosition();
