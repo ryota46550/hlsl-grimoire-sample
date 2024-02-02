@@ -21,11 +21,9 @@ float4x4 g_worldMatrix : register(b0);
 VSOutput VSMain(VSInput In)
 {
     VSOutput vsOut = (VSOutput)0;
+    //step1（頂点座標を出力データに代入）
+    vsOut.pos = In.pos;
 
-    //step-7 ワールド行列と座標を乗算して座標変換を行う
-    vsOut.pos = mul(g_worldMatrix, In.pos);
-
-    //vsOut.pos = In.pos;
     vsOut.color = In.color; // カラーの情報を出力する
     return vsOut;
 }
@@ -33,6 +31,6 @@ VSOutput VSMain(VSInput In)
 // ピクセルシェーダー
 float4 PSMain(VSOutput vsOut) : SV_Target0
 {
-    // 赤色を出力している
-    return float4(1.0f, 0.0f , 0.0f, 1.0f);
+    //黄色を出力している
+    return float4(1.0f, 1.0f , 0.0f, 1.0f);
 }
